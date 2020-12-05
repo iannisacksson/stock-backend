@@ -1,6 +1,7 @@
 import { injectable, inject } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
+import { ROLES } from '@shared/contants/roles';
 import IUsersRepository from '../repositories/IUsersRepository';
 import IHashProvider from '../providers/HashProvider/models/IHashProvider';
 
@@ -33,6 +34,10 @@ class CreateUserService {
 
     if (checkUserExists) {
       throw new AppError('E-mail address already used.', 409);
+    }
+
+    if (ROLES.ADMIN !== role && ROLES.USER !== role) {
+      throw new AppError('Role is not allowed.', 409);
     }
 
     const hashPassword = await this.hashProvider.generateHash(password);
