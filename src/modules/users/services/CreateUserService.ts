@@ -11,7 +11,7 @@ interface IRequest {
   name: string;
   email: string;
   password: string;
-  role: string;
+  role: ROLES;
 }
 
 @injectable()
