@@ -19,8 +19,8 @@ app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
     return response.status(err.statusCode).json({
       success: false,
       error: {
-        status: 'error',
         message: err.message,
+        status: err.statusCode,
       },
     });
   }
@@ -30,8 +30,8 @@ app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
   return response.status(500).json({
     success: false,
     error: {
-      status: 'error',
       message: 'Internal server error',
+      status: 500,
     },
   });
 });
