@@ -30,12 +30,6 @@ class ProductVariant {
   @JoinColumn({ name: 'variant_id' })
   variant: Variant;
 
-  @Column()
-  name: string;
-
-  @Column()
-  identifier_code: string;
-
   @CreateDateColumn()
   created_at: Date;
 

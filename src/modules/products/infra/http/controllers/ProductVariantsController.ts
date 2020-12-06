@@ -1,20 +1,22 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
-import CreateProductService from '@modules/products/services/CreateProductService';
+import CreateProductVariantsService from '@modules/products/services/CreateProductVariantService';
 import { sendSuccessful } from '@shared/formatters/responses';
 import { ROLES } from '@shared/contants/roles';
 
-export default class ProductsController {
+export default class ProductVariantsController {
   public async create(request: Request, response: Response): Promise<void> {
     const { role } = request.user;
-    const { name, identifier_code } = request.body;
+    const { product_id, variant_id } = request.body;
 
-    const createProduct = container.resolve(CreateProductService);
+    const createProductVariant = container.resolve(
+      CreateProductVariantsService,
+    );
 
-    const product = await createProduct.execute({
-      name,
-      identifier_code,
+    const product = await createProductVariant.execute({
+      product_id,
+      variant_id,
       role: role as ROLES,
     });
 

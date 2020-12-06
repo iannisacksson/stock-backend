@@ -1,7 +1,7 @@
 import AppError from '@shared/errors/AppError';
 
 import { ROLES } from '@shared/contants/roles';
-import ProductsRepository from '../repositories/fakes/ProductsRepository';
+import ProductsRepository from '../repositories/fakes/FakeProductsRepository';
 
 import CreateProductService from './CreateProductService';
 
