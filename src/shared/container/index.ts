@@ -17,6 +17,9 @@ import VariantsRepository from '@modules/products/infra/typeorm/repositories/Var
 import IProductVariantsRepository from '@modules/products/repositories/IProductVariantsRepository';
 import ProductVariantsRepository from '@modules/products/infra/typeorm/repositories/ProductVariantsRepository';
 
+import IOrderSkusRepository from '@modules/skus/repositories/IOrderSkusRepository';
+import OrderSkusRepository from '@modules/skus/infra/typeorm/repositories/OrderSkusRepository';
+
 container.registerSingleton<IUsersRepository>(
   'UsersRepository',
   UsersRepository,
@@ -40,4 +43,9 @@ container.registerSingleton<IVariantsRepository>(
 container.registerSingleton<IProductVariantsRepository>(
   'ProductVariantsRepository',
   ProductVariantsRepository,
+);
+
+container.registerSingleton<IOrderSkusRepository>(
+  'OrderSkusRepository',
+  OrderSkusRepository,
 );

@@ -8,7 +8,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 
-import Product from './Product';
+import Product from '@modules/products/infra/typeorm/entities/Product';
 
 @Entity('product_variants')
 class ProductVariant {

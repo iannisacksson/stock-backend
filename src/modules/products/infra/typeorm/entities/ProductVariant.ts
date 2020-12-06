@@ -19,7 +19,7 @@ class ProductVariant {
   @Column()
   product_id: string;
 
-  @ManyToOne(() => Product)
+  @ManyToOne(() => Product, product => product.product_variant)
   @JoinColumn({ name: 'product_id' })
   product: Product;
 

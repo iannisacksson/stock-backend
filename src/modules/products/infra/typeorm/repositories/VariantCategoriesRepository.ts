@@ -1,7 +1,9 @@
-import { Repository, getRepository } from 'typeorm';
+import { Repository, getRepository, In } from 'typeorm';
 
 import IVariantCategoriesRepository from '@modules/products/repositories/IVariantCategoriesRepository';
 
+import IPaginationDTO from '@shared/dtos/IPaginationDTO';
+import IVariantCategoriesPaginationDTO from '@modules/products/dtos/IVariantCategoriesPaginationDTO';
 import VariantCategory from '../entities/VariantCategory';
 
 class VariantCategoriesRepository implements IVariantCategoriesRepository {
@@ -17,12 +19,34 @@ class VariantCategoriesRepository implements IVariantCategoriesRepository {
     return variantCategory;
   }
 
+  public async findByIds(ids: string[]): Promise<VariantCategory[]> {
+    const variantCategories = await this.ormRepository.find({
+      where: { id: In(ids) },
+    });
+
+    return variantCategories;
+  }
+
   public async findByName(name: string): Promise<VariantCategory | undefined> {
     const variantCategory = await this.ormRepository.findOne({
       where: { name },
     });
 
     return variantCategory;
+  }
+
+  public async findAll({
+    limit,
+    page,
+  }: IPaginationDTO): Promise<IVariantCategoriesPaginationDTO> {
+    const skip = Math.abs(page - 1) * limit;
+
+    const [variantCategories, total] = await this.ormRepository.findAndCount({
+      take: limit,
+      skip,
+    });
+
+    return { variantCategories, total };
   }
 
   public async findByIdentifierCode(
