@@ -2,6 +2,8 @@ import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
 import CreateProductService from '@modules/products/services/CreateProductService';
+import ListProductsService from '@modules/products/services/ListProductsService';
+
 import { sendSuccessful } from '@shared/formatters/responses';
 import { ROLES } from '@shared/contants/roles';
 
@@ -19,5 +21,20 @@ export default class ProductsController {
     });
 
     sendSuccessful(response, product);
+  }
+
+  public async list(request: Request, response: Response): Promise<void> {
+    const { role } = request.user;
+    const { limit = 10, page = 1 } = request.query;
+
+    const listProducts = container.resolve(ListProductsService);
+
+    const products = await listProducts.execute({
+      limit: Number(limit),
+      page: Number(page),
+      role: role as ROLES,
+    });
+
+    sendSuccessful(response, products);
   }
 }

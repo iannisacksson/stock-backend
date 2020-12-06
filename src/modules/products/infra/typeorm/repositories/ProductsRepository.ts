@@ -3,6 +3,8 @@ import { Repository, getRepository } from 'typeorm';
 import IProductsRepository from '@modules/products/repositories/IProductsRepository';
 
 import ICreateProductDTO from '@modules/products/dtos/ICreateProductDTO';
+import IProductsPaginationDTO from '@modules/products/dtos/IProductsPaginationDTO';
+import IPaginationDTO from '@shared/dtos/IPaginationDTO';
 import Product from '../entities/Product';
 
 class ProductsRepository implements IProductsRepository {
@@ -16,6 +18,20 @@ class ProductsRepository implements IProductsRepository {
     const product = await this.ormRepository.findOne(id);
 
     return product;
+  }
+
+  public async findAll({
+    limit,
+    page,
+  }: IPaginationDTO): Promise<IProductsPaginationDTO> {
+    const skip = Math.abs(page - 1) * limit;
+
+    const [products, total] = await this.ormRepository.findAndCount({
+      take: limit,
+      skip,
+    });
+
+    return { products, total };
   }
 
   public async findByIdentifierCode(

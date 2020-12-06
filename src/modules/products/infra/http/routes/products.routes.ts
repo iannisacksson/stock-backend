@@ -3,11 +3,12 @@ import { Router } from 'express';
 import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
 import ProductsController from '../controllers/ProductsController';
 
-const usersRouter = Router();
+const productsRouter = Router();
 const productsController = new ProductsController();
 
-usersRouter.use(ensureAuthenticated);
+productsRouter.use(ensureAuthenticated);
 
-usersRouter.post('/', productsController.create);
+productsRouter.post('/', productsController.create);
+productsRouter.get('/', productsController.list);
 
-export default usersRouter;
+export default productsRouter;

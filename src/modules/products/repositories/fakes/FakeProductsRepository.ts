@@ -3,6 +3,8 @@ import { uuid } from 'uuidv4';
 import IProductsRepository from '@modules/products/repositories/IProductsRepository';
 import ICreateProductDTO from '@modules/products/dtos/ICreateProductDTO';
 
+import IPaginationDTO from '@shared/dtos/IPaginationDTO';
+import IProductsPaginationDTO from '@modules/products/dtos/IProductsPaginationDTO';
 import Product from '../../infra/typeorm/entities/Product';
 
 class FakeProductsRepository implements IProductsRepository {
@@ -12,6 +14,17 @@ class FakeProductsRepository implements IProductsRepository {
     const findProduct = this.products.find(product => product.id === id);
 
     return findProduct;
+  }
+
+  public async findAll({
+    limit,
+    page,
+  }: IPaginationDTO): Promise<IProductsPaginationDTO> {
+    const total = this.products.length;
+
+    const products = this.products.slice((page - 1) * limit, page * limit);
+
+    return { products, total };
   }
 
   public async findByIdentifierCode(
