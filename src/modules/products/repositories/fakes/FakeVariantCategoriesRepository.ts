@@ -2,6 +2,8 @@ import { uuid } from 'uuidv4';
 
 import IVariantCategoriesRepository from '@modules/products/repositories/IVariantCategoriesRepository';
 
+import IPaginationDTO from '@shared/dtos/IPaginationDTO';
+import IVariantCategoriesPaginationDTO from '@modules/products/dtos/IVariantCategoriesPaginationDTO';
 import VariantCategory from '../../infra/typeorm/entities/VariantCategory';
 
 class FakeVariantCategoriesRepository implements IVariantCategoriesRepository {
@@ -13,6 +15,28 @@ class FakeVariantCategoriesRepository implements IVariantCategoriesRepository {
     );
 
     return findVariantCategory;
+  }
+
+  public async findByIds(ids: string[]): Promise<VariantCategory[]> {
+    const findVariantCategories = this.variantCategories.filter(
+      variantCategory => ids.includes(variantCategory.id),
+    );
+
+    return findVariantCategories;
+  }
+
+  public async findAll({
+    limit,
+    page,
+  }: IPaginationDTO): Promise<IVariantCategoriesPaginationDTO> {
+    const total = this.variantCategories.length;
+
+    const variantCategories = this.variantCategories.slice(
+      (page - 1) * limit,
+      page * limit,
+    );
+
+    return { variantCategories, total };
   }
 
   public async findByName(name: string): Promise<VariantCategory | undefined> {

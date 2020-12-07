@@ -3,9 +3,10 @@ import { injectable, inject } from 'tsyringe';
 import AppError from '@shared/errors/AppError';
 import { ROLES } from '@shared/contants/roles';
 
+import Sku from '@modules/skus/infra/typeorm/entities/Sku';
+
 import IOrderSkusRepository from '@modules/skus/repositories/IOrderSkusRepository';
 import ISkusRepository from '@modules/skus/repositories/ISkusRepository';
-import Sku from '@modules/skus/infra/typeorm/entities/Sku';
 import IProductVariantsRepository from '../repositories/IProductVariantsRepository';
 import IProductsRepository from '../repositories/IProductsRepository';
 import IVariantsRepository from '../repositories/IVariantsRepository';

@@ -6,9 +6,6 @@ import ICreateProductVariantDTO from '../dtos/ICreateProductVariantDTO';
 export default interface IProductProductVariantsRepository {
   findById(id: string): Promise<ProductVariant | undefined>;
   findByProductId(id: string): Promise<ProductVariant[]>;
-  // findByProductIdAndVariantId(
-  //   data: IFindByProductIdAndVariantIdDTO,
-  // ): Promise<ProductVariant | undefined>;
   create(data: ICreateProductVariantDTO[]): Promise<ProductVariant[]>;
   save(data: ProductVariant): Promise<ProductVariant>;
 }

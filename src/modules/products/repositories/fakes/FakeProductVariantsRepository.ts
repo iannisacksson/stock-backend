@@ -3,7 +3,6 @@ import { uuid } from 'uuidv4';
 import IProductVariantsRepository from '@modules/products/repositories/IProductVariantsRepository';
 
 import ICreateProductVariantDTO from '@modules/products/dtos/ICreateProductVariantDTO';
-import IFindByProductIdAndVariantIdDTO from '@modules/products/dtos/IFindByProductIdAndVariantIdDTO';
 import ProductVariant from '../../infra/typeorm/entities/ProductVariant';
 
 class FakeProductVariantsRepository implements IProductVariantsRepository {
@@ -17,30 +16,24 @@ class FakeProductVariantsRepository implements IProductVariantsRepository {
     return findProductVariant;
   }
 
-  public async findByProductIdAndVariantId({
-    product_id,
-    variant_id,
-  }: IFindByProductIdAndVariantIdDTO): Promise<ProductVariant | undefined> {
-    const findProductVariant = this.productVariants.find(
-      productVariants =>
-        productVariants.product_id === product_id &&
-        productVariants.variant_id === variant_id,
+  public async findByProductId(id: string): Promise<ProductVariant[]> {
+    const findProductVariants = this.productVariants.filter(
+      productVariants => productVariants.id === id,
     );
 
-    return findProductVariant;
+    return findProductVariants;
   }
 
-  public async create({
-    product_id,
-    variant_id,
-  }: ICreateProductVariantDTO): Promise<ProductVariant> {
+  public async create(
+    productVariantData: ICreateProductVariantDTO[],
+  ): Promise<ProductVariant[]> {
     const productvariants = new ProductVariant();
 
-    Object.assign(productvariants, { id: uuid() }, { product_id, variant_id });
+    Object.assign(productvariants, { id: uuid() }, { productVariantData });
 
     this.productVariants.push(productvariants);
 
-    return productvariants;
+    return this.productVariants;
   }
 
   public async save(

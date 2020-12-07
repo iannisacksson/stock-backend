@@ -1,4 +1,5 @@
 import { ROLES } from '@shared/contants/roles';
+import AppError from '@shared/errors/AppError';
 import ProductsRepository from '../repositories/fakes/FakeProductsRepository';
 
 import ListProductsService from './ListProductsService';
@@ -48,5 +49,15 @@ describe('CreateProduct', () => {
     });
 
     expect(products2).toEqual({ total: 3, page: 2, products: productsResult2 });
+  });
+
+  it('should be able for only the administrator to list products', async () => {
+    await expect(
+      listProducts.execute({
+        limit: 1,
+        page: 1,
+        role: 'different admin role' as ROLES,
+      }),
+    ).rejects.toBeInstanceOf(AppError);
   });
 });

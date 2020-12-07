@@ -3,6 +3,8 @@ import { uuid } from 'uuidv4';
 import IVariantsRepository from '@modules/products/repositories/IVariantsRepository';
 
 import ICreateVariantDTO from '@modules/products/dtos/ICreateVariantDTO';
+import IFindByAllVariantsDTO from '@modules/products/dtos/IFindByAllVariantsDTO';
+import IVariantsPaginationDTO from '@modules/products/dtos/IVariantsPaginationDTO';
 import Variant from '../../infra/typeorm/entities/Variant';
 
 class FakeVariantsRepository implements IVariantsRepository {
@@ -12,6 +14,26 @@ class FakeVariantsRepository implements IVariantsRepository {
     const findVariant = this.variants.find(variant => variant.id === id);
 
     return findVariant;
+  }
+
+  public async findByIds(ids: string[]): Promise<Variant[]> {
+    const findVariants = this.variants.filter(variant =>
+      ids.includes(variant.id),
+    );
+
+    return findVariants;
+  }
+
+  public async findAll({
+    limit,
+    page,
+    variant_category_id,
+  }: IFindByAllVariantsDTO): Promise<IVariantsPaginationDTO> {
+    const total = this.variants.length;
+
+    const variants = this.variants.slice((page - 1) * limit, page * limit);
+
+    return { variants, total };
   }
 
   public async findByIdentifierCode(
