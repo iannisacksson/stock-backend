@@ -19,6 +19,14 @@ class SkusRepository implements ISkusRepository {
     return sku;
   }
 
+  public async findByProductId(id: string): Promise<Sku[]> {
+    const skus = await this.ormRepository.find({
+      where: { product_id: id },
+    });
+
+    return skus;
+  }
+
   public async findByCode(code: string): Promise<Sku | undefined> {
     const sku = await this.ormRepository.findOne({
       where: { code },
@@ -35,7 +43,7 @@ class SkusRepository implements ISkusRepository {
     return sku;
   }
 
-  public async save(skuData: Sku): Promise<Sku> {
+  public async saveSeveral(skuData: Sku[]): Promise<Sku[]> {
     return this.ormRepository.save(skuData);
   }
 }

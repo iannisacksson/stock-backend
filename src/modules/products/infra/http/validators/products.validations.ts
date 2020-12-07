@@ -12,3 +12,13 @@ export const showAndDelete = celebrate({
     product_id: Joi.string().uuid().required(),
   },
 });
+
+export const update = celebrate({
+  [Segments.PARAMS]: {
+    product_id: Joi.string().uuid().required(),
+  },
+  [Segments.BODY]: {
+    name: Joi.string().required(),
+    identifier_code: Joi.string().max(3).required(),
+  },
+});

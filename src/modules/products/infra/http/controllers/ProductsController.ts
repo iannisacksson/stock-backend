@@ -5,6 +5,7 @@ import CreateProductService from '@modules/products/services/CreateProductServic
 import ListProductsService from '@modules/products/services/ListProductsService';
 import ShowProductService from '@modules/products/services/ShowProductService';
 import DeleteProductService from '@modules/products/services/DeleteProductService';
+import UpdateProductService from '@modules/products/services/UpdateProductService';
 
 import { sendSuccessful } from '@shared/formatters/responses';
 import { ROLES } from '@shared/contants/roles';
@@ -66,5 +67,22 @@ export default class ProductsController {
     });
 
     sendSuccessful(response, {}, 204);
+  }
+
+  public async update(request: Request, response: Response): Promise<void> {
+    const { role } = request.user;
+    const { product_id } = request.params;
+    const { name, identifier_code } = request.body;
+
+    const updateProduct = container.resolve(UpdateProductService);
+
+    const updatedProduct = await updateProduct.execute({
+      product_id,
+      identifier_code,
+      name,
+      role: role as ROLES,
+    });
+
+    sendSuccessful(response, updatedProduct);
   }
 }
