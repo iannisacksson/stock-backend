@@ -29,6 +29,7 @@ class ProductsRepository implements IProductsRepository {
     const [products, total] = await this.ormRepository.findAndCount({
       take: limit,
       skip,
+      relations: ['skus'],
     });
 
     return { products, total };

@@ -6,6 +6,8 @@ import {
   UpdateDateColumn,
   OneToMany,
 } from 'typeorm';
+
+import Sku from '@modules/skus/infra/typeorm/entities/Sku';
 import ProductVariant from './ProductVariant';
 
 @Entity('products')
@@ -14,7 +16,10 @@ class Product {
   id: string;
 
   @OneToMany(() => ProductVariant, productVariant => productVariant.product)
-  product_variant: Product;
+  product_variant: ProductVariant[];
+
+  @OneToMany(() => Sku, sku => sku.product)
+  skus: Sku[];
 
   @Column()
   name: string;
