@@ -10,5 +10,6 @@ const variantsController = new VariantsController();
 variantsRouter.use(ensureAuthenticated);
 
 variantsRouter.post('/', variantsValidators, variantsController.create);
+variantsRouter.get('/', variantsController.list);
 
 export default variantsRouter;

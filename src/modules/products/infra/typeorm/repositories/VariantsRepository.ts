@@ -4,6 +4,8 @@ import IVariantsRepository from '@modules/products/repositories/IVariantsReposit
 
 import ICreateVariantDTO from '@modules/products/dtos/ICreateVariantDTO';
 
+import IVariantsPaginationDTO from '@modules/products/dtos/IVariantsPaginationDTO';
+import IFindByAllVariantsDTO from '@modules/products/dtos/IFindByAllVariantsDTO';
 import Variant from '../entities/Variant';
 
 class VariantsRepository implements IVariantsRepository {
@@ -35,6 +37,22 @@ class VariantsRepository implements IVariantsRepository {
     });
 
     return variant;
+  }
+
+  public async findAll({
+    limit,
+    page,
+    variant_category_id,
+  }: IFindByAllVariantsDTO): Promise<IVariantsPaginationDTO> {
+    const skip = Math.abs(page - 1) * limit;
+
+    const [variants, total] = await this.ormRepository.findAndCount({
+      where: variant_category_id ? { variant_category_id } : {},
+      take: limit,
+      skip,
+    });
+
+    return { variants, total };
   }
 
   public async create({
