@@ -4,6 +4,7 @@ import { container } from 'tsyringe';
 import CreateProductService from '@modules/products/services/CreateProductService';
 import ListProductsService from '@modules/products/services/ListProductsService';
 import ShowProductService from '@modules/products/services/ShowProductService';
+import DeleteProductService from '@modules/products/services/DeleteProductService';
 
 import { sendSuccessful } from '@shared/formatters/responses';
 import { ROLES } from '@shared/contants/roles';
@@ -43,13 +44,27 @@ export default class ProductsController {
     const { role } = request.user;
     const { product_id } = request.params;
 
-    const ShowProduct = container.resolve(ShowProductService);
+    const showProduct = container.resolve(ShowProductService);
 
-    const product = await ShowProduct.execute({
+    const product = await showProduct.execute({
       product_id,
       role: role as ROLES,
     });
 
     sendSuccessful(response, product);
+  }
+
+  public async delete(request: Request, response: Response): Promise<void> {
+    const { role } = request.user;
+    const { product_id } = request.params;
+
+    const deleteProduct = container.resolve(DeleteProductService);
+
+    await deleteProduct.execute({
+      product_id,
+      role: role as ROLES,
+    });
+
+    sendSuccessful(response, {}, 204);
   }
 }

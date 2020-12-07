@@ -10,4 +10,5 @@ export default interface IProductsRepository {
   findAll(pagination: IPaginationDTO): Promise<IProductsPaginationDTO>;
   create(data: ICreateProductDTO): Promise<Product>;
   save(data: Product): Promise<Product>;
+  remove(data: Product): Promise<void>;
 }

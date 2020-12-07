@@ -61,6 +61,10 @@ class ProductsRepository implements IProductsRepository {
   public async save(productData: Product): Promise<Product> {
     return this.ormRepository.save(productData);
   }
+
+  public async remove(productData: Product): Promise<void> {
+    await this.ormRepository.remove(productData);
+  }
 }
 
 export default ProductsRepository;
