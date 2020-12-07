@@ -3,6 +3,7 @@ import { container } from 'tsyringe';
 
 import CreateProductService from '@modules/products/services/CreateProductService';
 import ListProductsService from '@modules/products/services/ListProductsService';
+import ShowProductService from '@modules/products/services/ShowProductService';
 
 import { sendSuccessful } from '@shared/formatters/responses';
 import { ROLES } from '@shared/contants/roles';
@@ -36,5 +37,19 @@ export default class ProductsController {
     });
 
     sendSuccessful(response, products);
+  }
+
+  public async show(request: Request, response: Response): Promise<void> {
+    const { role } = request.user;
+    const { product_id } = request.params;
+
+    const ShowProduct = container.resolve(ShowProductService);
+
+    const product = await ShowProduct.execute({
+      product_id,
+      role: role as ROLES,
+    });
+
+    sendSuccessful(response, product);
   }
 }

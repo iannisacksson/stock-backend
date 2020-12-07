@@ -3,7 +3,7 @@ import { Router } from 'express';
 import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
 import ProductVariantsController from '../controllers/ProductVariantsController';
 
-import productVariantsValidators from '../validators/productVariants.validators';
+import productVariantsValidators from '../validators/productVariants.validations';
 
 const productVariantsRouter = Router();
 const productVariantsController = new ProductVariantsController();
