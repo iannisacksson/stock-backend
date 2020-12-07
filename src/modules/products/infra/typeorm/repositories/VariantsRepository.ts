@@ -1,4 +1,4 @@
-import { Repository, getRepository } from 'typeorm';
+import { Repository, getRepository, In } from 'typeorm';
 
 import IVariantsRepository from '@modules/products/repositories/IVariantsRepository';
 
@@ -17,6 +17,14 @@ class VariantsRepository implements IVariantsRepository {
     const variant = await this.ormRepository.findOne(id);
 
     return variant;
+  }
+
+  public async findByIds(ids: string[]): Promise<Variant[]> {
+    const variants = await this.ormRepository.find({
+      where: { id: In(ids) },
+    });
+
+    return variants;
   }
 
   public async findByIdentifierCode(

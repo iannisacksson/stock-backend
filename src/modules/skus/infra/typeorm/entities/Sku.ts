@@ -10,7 +10,7 @@ import {
 
 import Product from '@modules/products/infra/typeorm/entities/Product';
 
-@Entity('product_variants')
+@Entity('skus')
 class ProductVariant {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -29,10 +29,7 @@ class ProductVariant {
   quantity: number;
 
   @Column({ type: 'decimal', precision: 5, scale: 2 })
-  price: string;
-
-  @Column()
-  identifier_code: string;
+  price: number;
 
   @CreateDateColumn()
   created_at: Date;

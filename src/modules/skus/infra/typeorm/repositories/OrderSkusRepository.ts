@@ -1,9 +1,8 @@
-import { Repository, getRepository, In } from 'typeorm';
+import { Repository, getRepository } from 'typeorm';
 
 import IOrderSkusRepository from '@modules/skus/repositories/IOrderSkusRepository';
 
 import ICreateOrderSkuDTO from '@modules/skus/dtos/ICreateOrderSkuDTO';
-import IFindByProductIdAndPrioritiesDTO from '@modules/skus/dtos/IFindByProductIdAndPrioritiesDTO';
 
 import OrderSku from '../entities/OrderSku';
 
@@ -20,12 +19,10 @@ class OrderSkusRepository implements IOrderSkusRepository {
     return orderSkus;
   }
 
-  public async findByProductIdAndpriorities({
-    priorities,
-    product_id,
-  }: IFindByProductIdAndPrioritiesDTO): Promise<OrderSku[]> {
+  public async findByProductId(id: string): Promise<OrderSku[]> {
     const orderSkus = await this.ormRepository.find({
-      where: { product_id, priority: In(priorities) },
+      where: { product_id: id },
+      order: { priority: 'ASC' },
     });
 
     return orderSkus;

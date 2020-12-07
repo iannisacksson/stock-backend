@@ -20,6 +20,15 @@ class ProductVariantsRepository implements IProductVariantsRepository {
     return productVariant;
   }
 
+  public async findByProductId(id: string): Promise<ProductVariant[]> {
+    const productVariant = await this.ormRepository.find({
+      where: { product_id: id },
+      relations: ['variant'],
+    });
+
+    return productVariant;
+  }
+
   public async findByProductIdAndVariantId({
     product_id,
     variant_id,
@@ -31,14 +40,10 @@ class ProductVariantsRepository implements IProductVariantsRepository {
     return productVariant;
   }
 
-  public async create({
-    product_id,
-    variant_id,
-  }: ICreateProductVariantDTO): Promise<ProductVariant> {
-    const productVariant = this.ormRepository.create({
-      product_id,
-      variant_id,
-    });
+  public async create(
+    productVariantsData: ICreateProductVariantDTO[],
+  ): Promise<ProductVariant[]> {
+    const productVariant = this.ormRepository.create(productVariantsData);
 
     await this.ormRepository.save(productVariant);
 

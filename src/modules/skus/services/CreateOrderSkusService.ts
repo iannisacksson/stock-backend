@@ -79,19 +79,35 @@ class CreateOrderSkusService {
       throw new AppError('One of the category variants was not found.', 404);
     }
 
-    const orderSkusByProduct = await this.orderSkusRepository.findByProductIdAndpriorities(
-      {
-        product_id,
-        priorities,
-      },
+    const orderSkusByProduct = await this.orderSkusRepository.findByProductId(
+      product_id,
     );
 
-    if (orderSkusByProduct.length > 0) {
-      throw new AppError(
-        'One of the priorities has already been fulfilled.',
-        409,
+    orderSkusByProduct.map(orderSku => {
+      const priorityExist = priorities.find(
+        priority => priority === orderSku.priority,
       );
-    }
+
+      if (priorityExist) {
+        throw new AppError(
+          'One of the priorities has already been fulfilled.',
+          409,
+        );
+      }
+
+      const categoryExist = categoryIds.find(
+        id => orderSku.variant_category_id === id,
+      );
+
+      if (categoryExist) {
+        throw new AppError(
+          'Category variant is already associated with this product.',
+          409,
+        );
+      }
+
+      return null;
+    });
 
     const orderSkus = await this.orderSkusRepository.create(orderSkusData);
 

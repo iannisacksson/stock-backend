@@ -1,5 +1,5 @@
 export enum PRIORITIES {
-  ONE = 'um',
-  TWO = 'dois',
-  THREE = 'três',
+  ONE = '1',
+  TWO = '2',
+  THREE = '3',
 }

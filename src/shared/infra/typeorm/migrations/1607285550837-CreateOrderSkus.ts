@@ -17,7 +17,7 @@ export default class CreateOrderSkus1607285550837
           {
             name: 'priority',
             type: 'enum',
-            enum: ['um', 'dois', 'três'],
+            enum: ['1', '2', '3'],
           },
           {
             name: 'product_id',
