@@ -19,6 +19,14 @@ class SkusRepository implements ISkusRepository {
     return sku;
   }
 
+  public async findByCode(code: string): Promise<Sku | undefined> {
+    const sku = await this.ormRepository.findOne({
+      where: { code },
+    });
+
+    return sku;
+  }
+
   public async create(SkuData: ICreateSkuDTO): Promise<Sku> {
     const sku = this.ormRepository.create(SkuData);
 

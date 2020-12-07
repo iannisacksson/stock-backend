@@ -71,40 +71,39 @@ class CreateProductVariantsService {
       );
     }
 
+    if (orderSkus.length !== variants.length) {
+      throw new AppError('Variations are missing to assemble the SKU.', 409);
+    }
+
+    const identifierCodeArray = orderSkus.map(orderSku => {
+      return variantsExist.find(
+        variant => variant.variant_category_id === orderSku.variant_category_id,
+      )?.identifier_code;
+    });
+
+    const identifierCode = identifierCodeArray
+      .filter(code => code !== undefined)
+      .join('-');
+
+    const codeSku = `${product.identifier_code}-${identifierCode}`;
+
+    const skuExist = await this.skusRepository.findByCode(codeSku);
+
+    if (skuExist) {
+      throw new AppError('Product variation already added.', 409);
+    }
+
     const variantCategoryIds = variantsExist.map(
       variant => variant.variant_category_id,
     );
 
-    const orderSkuFind = orderSkus.find(orderSku =>
+    const orderSkuFind = orderSkus.map(orderSku =>
       variantCategoryIds.includes(orderSku.variant_category_id),
     );
 
-    if (!orderSkuFind) {
+    if (orderSkuFind.includes(false)) {
       throw new AppError(
         'The requested product variation is not part of the order of priority.',
-        409,
-      );
-    }
-
-    const productVariantsExist = await this.productVariantsRepository.findByProductId(
-      product_id,
-    );
-
-    const productVariantExist = productVariantsExist.find(productVariant =>
-      variants.includes(productVariant.variant_id),
-    );
-
-    if (productVariantExist) {
-      throw new AppError('Product variant already exists.', 409);
-    }
-
-    const VariantAlreadyAdded = productVariantsExist.find(productVariant =>
-      variantCategoryIds.includes(productVariant.variant.variant_category_id),
-    );
-
-    if (VariantAlreadyAdded) {
-      throw new AppError(
-        'Variant of the same category has already been added.',
         409,
       );
     }
@@ -116,37 +115,7 @@ class CreateProductVariantsService {
       };
     });
 
-    const productVariants = await this.productVariantsRepository.create(
-      productVatiantsData,
-    );
-
-    productVariants.map(productVariant => {
-      const variantFind = variantsExist.find(
-        variant => productVariant.variant_id === variant.id,
-      );
-
-      if (!variantFind) return null;
-
-      productVariant.variant = variantFind;
-
-      return productVariant;
-    });
-
-    productVariantsExist.push(...productVariants);
-
-    const identifierCodeArray = orderSkus.map(orderSku => {
-      return productVariantsExist.find(
-        productVariant =>
-          productVariant.variant.variant_category_id ===
-          orderSku.variant_category_id,
-      )?.variant.identifier_code;
-    });
-
-    const identifierCode = identifierCodeArray
-      .filter(code => code !== undefined)
-      .join('-');
-
-    const codeSku = `${product.identifier_code}-${identifierCode}`;
+    await this.productVariantsRepository.create(productVatiantsData);
 
     const sku = await this.skusRepository.create({
       code: codeSku,
