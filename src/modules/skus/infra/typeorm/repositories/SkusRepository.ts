@@ -4,6 +4,8 @@ import ISkusRepository from '@modules/skus/repositories/ISkusRepository';
 
 import ICreateSkuDTO from '@modules/skus/dtos/ICreateSkuDTO';
 
+import ISkusPaginationDTO from '@modules/skus/dtos/ISkusPaginationDTO';
+import IPaginationDTO from '@shared/dtos/IPaginationDTO';
 import Sku from '../entities/Sku';
 
 class SkusRepository implements ISkusRepository {
@@ -25,6 +27,21 @@ class SkusRepository implements ISkusRepository {
     });
 
     return skus;
+  }
+
+  public async findAll({
+    limit,
+    page,
+  }: IPaginationDTO): Promise<ISkusPaginationDTO> {
+    const skip = Math.abs(page - 1) * limit;
+
+    const [skus, total] = await this.ormRepository.findAndCount({
+      take: limit,
+      skip,
+      relations: ['product'],
+    });
+
+    return { skus, total };
   }
 
   public async findByCode(code: string): Promise<Sku | undefined> {

@@ -7,6 +7,7 @@ import variantCategoriesRouter from '@modules/products/infra/http/routes/variant
 import variantsRouter from '@modules/products/infra/http/routes/variants.routes';
 import productVariantsRouter from '@modules/products/infra/http/routes/product-variants.routes';
 import orderSkusRouter from '@modules/skus/infra/http/routes/orderSkus.routes';
+import skusRouter from '@modules/skus/infra/http/routes/skus.routes';
 
 const routes = Router();
 
@@ -17,5 +18,6 @@ routes.use('/variant-categories', variantCategoriesRouter);
 routes.use('/variants', variantsRouter);
 routes.use('/product-variants', productVariantsRouter);
 routes.use('/order-skus', orderSkusRouter);
+routes.use('/skus', skusRouter);
 
 export default routes;
