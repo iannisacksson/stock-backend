@@ -8,7 +8,7 @@ import Product from '../infra/typeorm/entities/Product';
 let fakeProductsRepostirory: ProductsRepository;
 let listProducts: ListProductsService;
 
-describe('CreateProduct', () => {
+describe('ListProduct', () => {
   beforeEach(() => {
     fakeProductsRepostirory = new ProductsRepository();
 

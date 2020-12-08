@@ -11,7 +11,7 @@ interface IRequest {
   page: number;
   limit: number;
   role: ROLES;
-  variant_category_id: string;
+  variant_category_id?: string;
 }
 
 interface IResponse {

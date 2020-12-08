@@ -29,8 +29,17 @@ class FakeVariantsRepository implements IVariantsRepository {
     page,
     variant_category_id,
   }: IFindByAllVariantsDTO): Promise<IVariantsPaginationDTO> {
-    const total = this.variants.length;
+    if (variant_category_id) {
+      const variantsFilter = this.variants.filter(
+        variant => variant.variant_category_id === variant_category_id,
+      );
+      const total = variantsFilter.length;
+      const variants = variantsFilter.slice((page - 1) * limit, page * limit);
 
+      return { variants, total };
+    }
+
+    const total = this.variants.length;
     const variants = this.variants.slice((page - 1) * limit, page * limit);
 
     return { variants, total };
