@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
-// import { classToClass } from 'class-transformer';
+import { classToClass } from 'class-transformer';
 
 import AuthenticateUserService from '@modules/users/services/AuthenticateUserService';
 import { sendSuccessful } from '@shared/formatters/responses';
@@ -16,8 +16,6 @@ export default class SessionsController {
       password,
     });
 
-    delete user.password;
-
-    sendSuccessful(response, { user, token });
+    sendSuccessful(response, { user: classToClass(user), token });
   }
 }

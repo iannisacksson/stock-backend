@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 
 import { ROLES } from '@shared/contants/roles';
+import { Exclude } from 'class-transformer';
 
 @Entity('users')
 class User {
@@ -20,6 +21,7 @@ class User {
   email: string;
 
   @Column()
+  @Exclude()
   password: string;
 
   @Column({ type: 'enum', enum: ROLES })

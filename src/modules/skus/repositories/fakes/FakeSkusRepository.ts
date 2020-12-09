@@ -3,6 +3,8 @@ import { uuid } from 'uuidv4';
 import ISkusRepository from '@modules/skus/repositories/ISkusRepository';
 
 import ICreateSkuDTO from '@modules/skus/dtos/ICreateSkuDTO';
+import ISkusPaginationDTO from '@modules/skus/dtos/ISkusPaginationDTO';
+import IPaginationDTO from '@shared/dtos/IPaginationDTO';
 import Sku from '../../infra/typeorm/entities/Sku';
 
 class FakeSkusRepository implements ISkusRepository {
@@ -12,6 +14,17 @@ class FakeSkusRepository implements ISkusRepository {
     const findSku = this.skus.find(sku => sku.id === id);
 
     return findSku;
+  }
+
+  public async findAll({
+    limit,
+    page,
+  }: IPaginationDTO): Promise<ISkusPaginationDTO> {
+    const total = this.skus.length;
+
+    const skus = this.skus.slice((page - 1) * limit, page * limit);
+
+    return { skus, total };
   }
 
   public async findByCode(code: string): Promise<Sku | undefined> {
