@@ -50,6 +50,7 @@ class VariantsRepository implements IVariantsRepository {
       where: variant_category_id ? { variant_category_id } : {},
       take: limit,
       skip,
+      relations: ['variant_category'],
     });
 
     return { variants, total };

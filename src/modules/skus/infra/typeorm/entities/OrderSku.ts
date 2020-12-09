@@ -9,6 +9,8 @@ import {
 } from 'typeorm';
 
 import Product from '@modules/products/infra/typeorm/entities/Product';
+import VariantCategory from '@modules/products/infra/typeorm/entities/VariantCategory';
+
 import { PRIORITIES } from '@shared/contants/priorities';
 
 @Entity('order_skus')
@@ -29,9 +31,9 @@ class OrderSku {
   @Column()
   variant_category_id: string;
 
-  @ManyToOne(() => Product)
+  @ManyToOne(() => VariantCategory)
   @JoinColumn({ name: 'variant_category_id' })
-  variant_category: Product;
+  variant_category: VariantCategory;
 
   @CreateDateColumn()
   created_at: Date;

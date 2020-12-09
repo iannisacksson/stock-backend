@@ -16,6 +16,8 @@ export default class SessionsController {
       password,
     });
 
+    delete user.password;
+
     sendSuccessful(response, { user, token });
   }
 }

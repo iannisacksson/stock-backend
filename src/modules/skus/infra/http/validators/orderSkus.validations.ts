@@ -18,3 +18,9 @@ export const create = celebrate({
       .required(),
   },
 });
+
+export const show = celebrate({
+  [Segments.PARAMS]: {
+    product_id: Joi.string().uuid().required(),
+  },
+});

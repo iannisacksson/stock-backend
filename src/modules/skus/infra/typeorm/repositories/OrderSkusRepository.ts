@@ -23,6 +23,7 @@ class OrderSkusRepository implements IOrderSkusRepository {
     const orderSkus = await this.ormRepository.find({
       where: { product_id: id },
       order: { priority: 'ASC' },
+      relations: ['variant_category'],
     });
 
     return orderSkus;
