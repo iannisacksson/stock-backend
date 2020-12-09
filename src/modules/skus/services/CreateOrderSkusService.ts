@@ -60,6 +60,14 @@ class CreateOrderSkusService {
         throw new AppError('The same category was chosen twice.', 422);
       }
 
+      const duplicatePriority = categoriesTemp.filter(
+        temp => category.priority === temp.priority,
+      );
+
+      if (duplicatePriority.length > 1) {
+        throw new AppError('The same priority was chosen twice.', 422);
+      }
+
       orderSkusData.push({
         product_id,
         priority: category.priority,
@@ -105,8 +113,6 @@ class CreateOrderSkusService {
           409,
         );
       }
-
-      return null;
     });
 
     const orderSkus = await this.orderSkusRepository.create(orderSkusData);

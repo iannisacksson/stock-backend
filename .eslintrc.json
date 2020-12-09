@@ -27,6 +27,7 @@
     "no-shadow": "off",
     "camelcase": "off",
     "no-param-reassign": 0,
+    "array-callback-return": "off",
     "@typescript-eslint/no-unused-vars": [
       "error",
       {
