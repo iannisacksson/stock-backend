@@ -41,21 +41,21 @@ class UpdateProductService {
       throw new AppError('Product not found.', 404);
     }
 
-    const identifierCodeExists = await this.productsRepository.findByIdentifierCode(
-      identifier_code,
-    );
-
-    if (identifierCodeExists) {
-      throw new AppError(
-        'The identifier code is already associated with a product.',
-        403,
+    if (product.identifier_code !== identifier_code) {
+      const identifierCodeExists = await this.productsRepository.findByIdentifierCode(
+        identifier_code,
       );
+
+      if (identifierCodeExists) {
+        throw new AppError(
+          'The identifier code is already associated with a product.',
+          403,
+        );
+      }
     }
 
     product.name = name;
-    if (product.identifier_code !== identifier_code) {
-      product.identifier_code = identifier_code;
-    }
+    product.identifier_code = identifier_code;
 
     await this.productsRepository.save(product);
 
