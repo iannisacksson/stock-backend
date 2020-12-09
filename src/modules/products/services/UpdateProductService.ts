@@ -53,7 +53,9 @@ class UpdateProductService {
     }
 
     product.name = name;
-    product.identifier_code = identifier_code;
+    if (product.identifier_code !== identifier_code) {
+      product.identifier_code = identifier_code;
+    }
 
     await this.productsRepository.save(product);
 
