@@ -1,4 +1,4 @@
-# Gobarber Backend
+# Stock Backend
 
 Back-end desenvolvido para um desafio onde deve ser capaz de gerenciar um stock, foi desenvolvido com Node, Typescript, Express, Postgres e JWT.
 
