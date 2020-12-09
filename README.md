@@ -6,6 +6,22 @@ Este Back-end está integrado com o projeto [Stock Web](https://github.com/ianni
 
 O principal objetivo desta API é realizar cadastro de produtos e a partir de algumas entidades pode se gerar um código único para demais variações de um produto tendo melhor identificação dentro de um estoque. Por exemplo, um **_tênis adidas masculino número 39_** pode ser identificado da seguinte forma no estoque **TEN-ADI-MAS-39**.
 
+No back-end antes de realizar a **SKU** é preciso montar algumas regras:
+
+1.  Criar variações de categorias
+    ⋅⋅\* Elas servem para definir o formato da SKU e permitir que uma variação do mesmo tipo não entre na SKU. Por exemplo, ter dois tamanhos para um tênis **TEN-ADI-39-43**
+
+2.  Criar variações
+    ⋅⋅\* Elas servem para montar a SKU a partir de um código único para cada variação.
+
+3.  Criar produto
+
+4.  Criar ordem de prioridade da SKU para um produto
+    ⋅⋅\* Nessa etapa você vai informar quais variações um produto pode ter. Por exemplo, uma camisa pode ter as variações de cor, tamanho e marca e além disso informar como deve ser montada a SKU (cor: prioridade 1, tamanho: prioridade 2, marca: prioridade 3). Quando a SKU for gerada ela terá o seguinte formato: Camisa-Cor-Tamanho-Marca.
+
+5.  Criar as variações do produto
+    ⋅⋅\* Aqui é preciso passar as variações de acordo com a ordem de prioridade, só é permitdo uma variação para cada prioridade. É informado também a quantidade e o preço.
+
 ## Começando
 
 ### Pré-requisitos
