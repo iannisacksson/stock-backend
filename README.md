@@ -1,6 +1,6 @@
 # Stock Backend
 
-Back-end desenvolvido para um desafio onde deve ser capaz de gerenciar um stock, foi desenvolvido com Node, Typescript, Express, Postgres e JWT.
+Back-end desenvolvido para um desafio onde deve ser capaz de gerenciar um stock, foi desenvolvido com Node, Typescript, Express, Postgres, Jest e JWT.
 
 Este Back-end está integrado com o projeto [Stock Web](https://github.com/iannisacksson/stock-frontend) e também foi realizado o deploy dos dois projetos no Heroku [click qui](https://stock-frontendts.herokuapp.com/) para realizar testes.
 
@@ -78,6 +78,20 @@ _ou_
 
 ```
 $ npm run dev:server
+```
+
+Quando estiver em execução no console onde está rodando o projeto irá aparecer a seguinte mensagem "🚀️ Server started on port 3333!"
+
+#### Rodando testes
+
+```
+$ yarn test
+```
+
+_ou_
+
+```
+$ npm test
 ```
 
 Quando estiver em execução no console onde está rodando o projeto irá aparecer a seguinte mensagem "🚀️ Server started on port 3333!"
